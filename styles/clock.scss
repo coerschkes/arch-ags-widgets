@@ -1,0 +1,7 @@
+.clock calendar {
+  color: var(--fg);
+}
+
+.clock calendar :selected {
+  background: var(--primary);
+}
