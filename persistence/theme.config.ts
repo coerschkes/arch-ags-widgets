@@ -2,6 +2,7 @@ import GLib from "gi://GLib"
 import { ConfigData, Theme, ThemePalette } from "./types"
 import { readFile, writeFile } from "ags/file"
 import App from "ags/gtk4/app"
+import { exec } from "ags/process"
 
 const THEME_CONFIG_FILE_NAME = ".theme.json"
 const THEME_STATE_FILE_NAME = ".theme.state"
@@ -30,6 +31,7 @@ export class ThemeConfig {
   set theme(theme: Theme) {
     const path = `${GLib.get_home_dir()}/${THEME_STATE_FILE_NAME}`
     writeFile(path, theme)
+    this.changeAlacrittyTheme(theme)
     this.applyTheme()
   }
 
@@ -55,5 +57,16 @@ export class ThemeConfig {
     }
   `,
     )
+  }
+
+  changeAlacrittyTheme(theme: Theme) {
+    const themeDir = `${GLib.get_home_dir()}/.config/alacritty/themes`
+    const target = `${GLib.get_home_dir()}/.config/alacritty/theme.toml`
+    const configFile = `${GLib.get_home_dir()}/.config/alacritty/alacritty.toml`
+
+    exec(
+      `ln -sf "${themeDir}/${theme === Theme.DARK ? "catppuccin-macchiato" : "catppuccin-latte"}.toml" "${target}"`,
+    )
+    exec(`touch ${configFile}`)
   }
 }
