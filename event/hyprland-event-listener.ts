@@ -8,7 +8,8 @@ export function startHyprlandListener(winProvider: () => Astal.Window) {
     if (
       event === "changefloatingmode" ||
       event === "activewindowv2" ||
-      event === "workspacev2"
+      event === "workspacev2" ||
+      event === "fullscreen"
     ) {
       updateVisibility(winProvider())
     }
