@@ -11,15 +11,15 @@ import { Audio } from "./Widgets/Audio"
 import { PowerMenu } from "./Widgets/Power-Menu"
 import { ThemeToggle } from "./Widgets/Theme-Toggle"
 import { Tailscale } from "./Widgets/Tailscale"
+import { startHyprlandListener } from "../../event/hyprland-event-listener"
+
+let win: Astal.Window
+startHyprlandListener(() => win)
 
 export default function Bar({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
-  let win: Astal.Window
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
 
   onCleanup(() => {
-    // Root components (windows) are not automatically destroyed.
-    // When the monitor is disconnected from the system, this callback
-    // is run from the parent <For> which allows us to destroy the window
     win.destroy()
   })
 
