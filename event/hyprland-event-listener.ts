@@ -21,7 +21,8 @@ function updateVisibility(win: Astal.Window) {
     return
   }
   const client = hypr.focusedClient
-  const floating_fullscreen =
-    client.floating && client.get_x() === -1 && client.get_y() === -1
-  win.visible = !((client && client.fullscreen) || floating_fullscreen)
+  win.visible =
+    !client ||
+    !client.fullscreen ||
+    (client.floating && client.get_x() === -1 && client.get_y() === -1)
 }
